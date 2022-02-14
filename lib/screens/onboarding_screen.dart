@@ -1,5 +1,7 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/global_consts.dart';
+import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
+import 'package:cbc_learning_materials/widgets/onboarding_pageview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Column(children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+            children: const [
               Text(
                 appName,
                 style: TextStyle(
@@ -42,9 +44,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Text(
                 "Skip",
                 style: TextStyle(color: AppColors.PRIMARY_COLOR_LIGHT),
-              )
+              ),
             ],
-          )
+          ),
+          const Expanded(child: OnboardingPageView()),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: AppColors.primaryColor),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SignUpScreen(),
+                  ),
+                  (route) => false);
+            },
+            child: const Text("Create an Account"),
+          ),
+          OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+                primary: AppColors.primaryColor,
+                backgroundColor: Colors.white,
+                side: const BorderSide(
+                    width: 1.0, color: AppColors.primaryColor)),
+            child: const Text("I already have an account"),
+          ),
         ]),
       ),
     );
