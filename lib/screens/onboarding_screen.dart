@@ -48,26 +48,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           const Expanded(child: OnboardingPageView()),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: AppColors.primaryColor),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SignUpScreen(),
-                  ),
-                  (route) => false);
-            },
-            child: const Text("Create an Account"),
+          Hero(
+            tag: 'signup',
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: AppColors.primaryColor),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpScreen(),
+                    ),
+                    (route) => false);
+              },
+              child: const Text("Create an Account"),
+            ),
           ),
-          OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-                primary: AppColors.primaryColor,
-                backgroundColor: Colors.white,
-                side: const BorderSide(
-                    width: 1.0, color: AppColors.primaryColor)),
-            child: const Text("I already have an account"),
+          Hero(
+            tag: "signin",
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                  primary: AppColors.primaryColor,
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(
+                      width: 1.0, color: AppColors.primaryColor)),
+              child: const Text("I already have an account"),
+            ),
           ),
         ]),
       ),
