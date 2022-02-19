@@ -1,4 +1,5 @@
 import 'package:cbc_learning_materials/app_colors.dart';
+import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
@@ -16,6 +17,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final TextEditingController _emailController =
+  TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordvalid = false;
 
@@ -24,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _firstNameController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -115,6 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 8,
               ),
               TextFormField(
+                controller: _emailController,
                 validator: (value) => EmailValidator.validate(value!)
                     ? null
                     : "Please enter a valid email",
@@ -211,7 +216,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style:
                     ElevatedButton.styleFrom(primary: AppColors.primaryColor),
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {}
+                  if (_formKey.currentState!.validate()) {
+                    FirebaseAuthMethods().signUp(_emailController.text, _confirmPasswordController.text, context);
+                  }
                 },
                 child: const Text("SIGN UP"),
               ),

@@ -32,6 +32,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
             ],
           ),
         ),
+        const SizedBox(height: 4,),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
           child: SmoothPageIndicator(
@@ -50,7 +51,9 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
 Widget _page(String assetName, String title, String description) {
   return Center(
       child: Column(children: [
-    SvgPicture.asset("assets/svg/$assetName.svg"),
+    Expanded(
+      flex: 1,
+        child: SvgPicture.asset("assets/svg/$assetName.svg")),
     Text(
       title,
       style: const TextStyle(
