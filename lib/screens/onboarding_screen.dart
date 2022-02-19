@@ -1,5 +1,6 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/global_consts.dart';
+import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:cbc_learning_materials/widgets/onboarding_pageview.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Hero(
             tag: "signin",
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignInScreen(),
+                    ),
+                    (route) => false);
+              },
               style: OutlinedButton.styleFrom(
                   primary: AppColors.primaryColor,
                   backgroundColor: Colors.white,

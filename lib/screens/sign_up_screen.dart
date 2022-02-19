@@ -4,6 +4,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:progress_state_button/iconed_button.dart';
+import 'package:progress_state_button/progress_button.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -17,10 +19,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  final TextEditingController _emailController =
-  TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordvalid = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -140,6 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 8,
               ),
               TextFormField(
+                obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return " Please enter password";
@@ -185,6 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 8,
               ),
               TextFormField(
+                obscureText: true,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please Confirm Password";
@@ -212,15 +216,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 16,
               ),
-              ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(primary: AppColors.primaryColor),
-                onPressed: () {
+              ProgressButton.icon(
+                iconedButtons: {
+                  ButtonState.idle: const IconedButton(
+                      text: "Sign Up",
+                      icon: Icon(Icons.send, color: Colors.white),
+                      color: AppColors.primaryColor),
+                  ButtonState.loading: IconedButton(
+                      text: "Loading", color: Colors.deepPurple.shade700),
+                  ButtonState.fail: IconedButton(
+                      text: "Failed",
+                      icon: const Icon(Icons.cancel, color: Colors.white),
+                      color: Colors.red.shade300),
+                  ButtonState.success: IconedButton(
+                      text: "Success",
+                      icon: const Icon(
+                        Icons.check_circle,
+                        color: Colors.white,
+                      ),
+                      color: Colors.green.shade400)
+                },
+                state: _isLoading ? ButtonState.loading : ButtonState.idle,
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    FirebaseAuthMethods().signUp(_emailController.text, _confirmPasswordController.text, context);
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await FirebaseAuthMethods().signUp(_emailController.text,
+                        _confirmPasswordController.text, context);
+                    setState(() {
+                      _isLoading = false;
+                    });
                   }
                 },
-                child: const Text("SIGN UP"),
               ),
               const SizedBox(
                 height: 16,
