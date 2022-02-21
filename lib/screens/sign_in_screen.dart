@@ -1,3 +1,4 @@
+import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -157,7 +158,13 @@ class _SignInScreenState extends State<SignInScreen> {
                       style: TextStyle(color: Colors.black),
                     ),
                     InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUpScreen()),
+                          );
+                        },
                         child: const Text(
                           " Sign Up",
                           style: TextStyle(
