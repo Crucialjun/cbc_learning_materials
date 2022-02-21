@@ -34,17 +34,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: Column(children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 appName,
                 style: TextStyle(
                     fontSize: 18,
                     color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold),
               ),
-              Text(
-                "Skip",
-                style: TextStyle(color: AppColors.PRIMARY_COLOR_LIGHT),
+              InkWell(
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignInScreen(),
+                      ),
+                      (route) => false);
+                },
+                child: const Text(
+                  "Skip",
+                  style: TextStyle(color: AppColors.PRIMARY_COLOR_LIGHT),
+                ),
               ),
             ],
           ),

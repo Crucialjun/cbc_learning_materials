@@ -1,5 +1,6 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
+import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
@@ -263,7 +264,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       style: TextStyle(color: Colors.black),
                     ),
                     InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignInScreen()),
+                          );
+                        },
                         child: const Text(
                           " Sign in",
                           style: TextStyle(

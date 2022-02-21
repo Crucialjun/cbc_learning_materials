@@ -1,3 +1,4 @@
+import 'package:cbc_learning_materials/screens/forgot_password.dart';
 import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
               Expanded(
                   child: Hero(
                       tag: "topsvg",
-                      child: SvgPicture.asset("assets/svg/signup_image.svg"))),
+                      child: SvgPicture.asset("assets/svg/signin_image.svg"))),
               const Text(
                 'SIGN IN',
                 style: TextStyle(
@@ -98,15 +99,22 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(
                 height: 12,
               ),
-              const Align(
+              Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
-                    child: Text(
-                  "Forgot Password",
-                  style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold),
-                )),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPassword()),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    )),
               ),
               const SizedBox(
                 height: 16,

@@ -21,9 +21,7 @@ class FirebaseAuthMethods {
   Future signIn(String email, String password, BuildContext context) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: "barry.allen@example.com",
-              password: "SuperSecretPassword!");
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showErrorDialog(context, "No user with that email, please sign up");
