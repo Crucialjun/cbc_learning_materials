@@ -34,4 +34,8 @@ class FirebaseAuthMethods {
       showErrorDialog(context, e.toString());
     }
   }
+
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

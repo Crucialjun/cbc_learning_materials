@@ -1,3 +1,4 @@
+import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 
 class MainDashboard extends StatelessWidget {
@@ -5,9 +6,13 @@ class MainDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text("Main Dashboard"),
+        child: ElevatedButton(
+            onPressed: () {
+              FirebaseAuthMethods().signOut();
+            },
+            child: const Text("Log Out")),
       ),
     );
   }
