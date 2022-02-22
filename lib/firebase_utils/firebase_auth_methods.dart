@@ -20,7 +20,7 @@ class FirebaseAuthMethods {
 
   Future signIn(String email, String password, BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -35,5 +35,15 @@ class FirebaseAuthMethods {
 
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<bool> resetPassword(String email, BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+      return false;
+    }
   }
 }
