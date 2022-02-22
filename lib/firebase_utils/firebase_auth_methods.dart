@@ -37,13 +37,12 @@ class FirebaseAuthMethods {
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<bool> resetPassword(String email, BuildContext context) async {
+  Future resetPassword(String email, BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      return true;
+      showSuccessDialog(context, "Reset email succesfully sent to $email");
     } catch (e) {
       showErrorDialog(context, e.toString());
-      return false;
     }
   }
 }
