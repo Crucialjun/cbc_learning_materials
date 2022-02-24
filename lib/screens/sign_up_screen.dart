@@ -3,6 +3,7 @@ import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_state_button/iconed_button.dart';
@@ -253,6 +254,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(
                 height: 16,
+              ),
+              Card(
+                elevation: 8,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Wrap(children: [
+                    Image.asset(
+                      "assets/svg/google_icon.png",
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    const Text(
+                      "Continue with Google",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    )
+                  ]),
+                ),
+              ),
+              Container(
+                color: Color.fromARGB(255, 227, 233, 245),
+                padding: const EdgeInsets.all(8),
+                child: Wrap(children: [
+                  Image.asset(
+                    "assets/svg/google_icon.png",
+                    width: 24,
+                    height: 24,
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  const Text(
+                    "Continue with Google",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  )
+                ]),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),

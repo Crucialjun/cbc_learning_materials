@@ -4,7 +4,6 @@ import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:cbc_learning_materials/widgets/onboarding_pageview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -14,18 +13,6 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
