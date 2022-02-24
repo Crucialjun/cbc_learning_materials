@@ -39,10 +39,16 @@ class FirebaseAuthMethods {
 
   Future resetPassword(String email, BuildContext context) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      showSuccessDialog(context, "Reset email succesfully sent to $email");
-    } catch (e) {
-      showErrorDialog(context, e.toString());
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: email)
+          .then((_) {
+        showSuccessDialog(context, "Reset link succesfully sent to $email");
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        showErrorDialog(
+            context, "$email not found please register with the email");
+      }
     }
   }
 }

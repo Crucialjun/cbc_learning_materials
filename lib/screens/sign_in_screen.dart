@@ -1,4 +1,5 @@
 import 'package:cbc_learning_materials/screens/forgot_password.dart';
+import 'package:cbc_learning_materials/screens/main_dashboard.dart';
 import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Icons.password,
                     color: Colors.black,
                   ),
-                  labelText: "Create Password",
+                  labelText: "Enter your Password",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -150,6 +151,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     setState(() {
                       _isLoading = false;
                     });
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainDashboard(),
+                        ),
+                        (route) => false);
                   }
                 },
               ),

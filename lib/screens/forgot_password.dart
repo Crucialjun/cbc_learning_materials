@@ -97,12 +97,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     });
                     await FirebaseAuthMethods()
                         .resetPassword(_emailController.text, context);
+
                     setState(() {
                       _isLoading = false;
                     });
-
-                    showSuccessDialog(context,
-                        "Reset link successfully sent to $_emailController.text");
                   }
                 },
               ),

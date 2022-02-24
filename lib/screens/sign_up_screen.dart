@@ -3,6 +3,7 @@ import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_state_button/iconed_button.dart';
@@ -253,6 +254,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(
                 height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SignInWithPinterest(
+                    onPressed: () {},
+                  ),
+                  SignInWithFacebook(
+                    onPressed: () {},
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
