@@ -42,7 +42,7 @@ dependencies:
   firebase_auth: ^3.3.7
   awesome_dialog: ^2.1.2
   progress_state_button: ^1.0.4
-  google_sign_in: '^4.5.1'
+  google_sign_in: '^5.2.4'
   flutter_awesome_buttons: ^1.1.0
 
 dev_dependencies:

@@ -1,13 +1,17 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
+import 'package:cbc_learning_materials/utils.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
+
+import 'main_dashboard.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -219,6 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 16,
               ),
               ProgressButton.icon(
+                height: 32.0,
                 iconedButtons: {
                   ButtonState.idle: const IconedButton(
                       text: "Sign Up",
@@ -253,47 +258,75 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 },
               ),
               const SizedBox(
-                height: 16,
+                height: 12,
               ),
-              Card(
-                elevation: 8,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Wrap(children: [
-                    Image.asset(
-                      "assets/svg/google_icon.png",
-                      width: 24,
-                      height: 24,
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    const Text(
-                      "Continue with Google",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    )
-                  ]),
+              InkWell(
+                onTap: () async {
+                  UserCredential userCredential =
+                      await FirebaseAuthMethods().signInWithGoogle();
+                  if (userCredential.user != null) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainDashboard(),
+                        ),
+                        (route) => false);
+                  }
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  elevation: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/svg/google_icon.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          const Text(
+                            "Continue with Google",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )
+                        ]),
+                  ),
                 ),
               ),
-              Container(
-                color: Color.fromARGB(255, 227, 233, 245),
-                padding: const EdgeInsets.all(8),
-                child: Wrap(children: [
-                  Image.asset(
-                    "assets/svg/google_icon.png",
-                    width: 24,
-                    height: 24,
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  const Text(
-                    "Continue with Google",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black),
-                  )
-                ]),
+              Card(
+                color: const Color(0xFF1777f2),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                elevation: 8,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/svg/facebook_logo.png",
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        const Text(
+                          "Continue with Facebook",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        )
+                      ]),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
