@@ -164,8 +164,8 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(
                 height: 8,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Wrap(
+                alignment: WrapAlignment.spaceEvenly,
                 children: [
                   InkWell(
                     onTap: () async {
