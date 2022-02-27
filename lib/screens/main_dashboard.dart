@@ -1,5 +1,6 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
+import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -43,8 +44,14 @@ class MainDashboard extends StatelessWidget {
                 ],
               ),
               ElevatedButton(
-                  onPressed: () {
-                    FirebaseAuthMethods().signOut();
+                  onPressed: () async {
+                    await FirebaseAuthMethods().signOut();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignInScreen(),
+                        ),
+                        (route) => false);
                   },
                   child: const Text("Logout")),
             ],

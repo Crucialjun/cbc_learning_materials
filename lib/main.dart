@@ -1,9 +1,11 @@
 import 'package:cbc_learning_materials/global_consts.dart';
 import 'package:cbc_learning_materials/screens/main_dashboard.dart';
 import 'package:cbc_learning_materials/screens/onboarding_screen.dart';
+import 'package:cbc_learning_materials/widgets/auth_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'firebase_options.dart';
 
@@ -15,37 +17,39 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
-  bool isSignedIn = false;
-
-  @override
   Widget build(BuildContext context) {
+    Future.wait([
+      precachePicture(
+        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+            'assets/svg/page_view_image1.svg'),
+        null,
+      ),
+      precachePicture(
+        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+            'assets/svg/page_view_image2.svg'),
+        null,
+      ),
+      precachePicture(
+        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+            'assets/svg/page_view_image3.svg'),
+        null,
+      ),
+      precachePicture(
+        ExactAssetPicture(SvgPicture.svgStringDecoderBuilder,
+            'assets/svg/page_view_image4.svg'),
+        null,
+      ),
+    ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: appName,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (_, snapshot) {
-            if (snapshot.data == null) {
-              isSignedIn = false;
-            } else {
-              isSignedIn = true;
-            }
-            return isSignedIn
-                ? const MainDashboard()
-                : const OnboardingScreen();
-          },
-        ));
+        home: const AuthController());
   }
 }

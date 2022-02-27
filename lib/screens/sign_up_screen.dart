@@ -301,31 +301,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
-              Card(
-                color: const Color(0xFF1777f2),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                elevation: 8,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      alignment: WrapAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/svg/facebook_logo.png",
-                          width: 24,
-                          height: 24,
+              InkWell(
+                onTap: () async {
+                  UserCredential? userCredential =
+                      await FirebaseAuthMethods().signInWithFacebook(context);
+                  if (userCredential?.user != null) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainDashboard(),
                         ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        const Text(
-                          "Continue with Facebook",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                        )
-                      ]),
+                        (route) => false);
+                  }
+                },
+                child: Card(
+                  color: const Color(0xFF1777f2),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  elevation: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/svg/facebook_logo.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          const Text(
+                            "Continue with Facebook",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )
+                        ]),
+                  ),
                 ),
               ),
               Padding(

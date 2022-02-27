@@ -2,6 +2,7 @@ import 'package:cbc_learning_materials/screens/forgot_password.dart';
 import 'package:cbc_learning_materials/screens/main_dashboard.dart';
 import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_state_button/iconed_button.dart';
@@ -161,7 +162,99 @@ class _SignInScreenState extends State<SignInScreen> {
                 },
               ),
               const SizedBox(
-                height: 16,
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      UserCredential userCredential =
+                          await FirebaseAuthMethods().signInWithGoogle();
+                      if (userCredential.user != null) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainDashboard(),
+                            ),
+                            (route) => false);
+                      }
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      elevation: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/svg/google_icon.png",
+                                width: 24,
+                                height: 24,
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              const Text(
+                                "Continue with Google",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              )
+                            ]),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      UserCredential? userCredential =
+                          await FirebaseAuthMethods()
+                              .signInWithFacebook(context);
+                      if (userCredential?.user != null) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainDashboard(),
+                            ),
+                            (route) => false);
+                      }
+                    },
+                    child: Card(
+                      color: const Color(0xFF1777f2),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      elevation: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/svg/facebook_logo.png",
+                                width: 24,
+                                height: 24,
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              const Text(
+                                "Continue with Facebook",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              )
+                            ]),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
