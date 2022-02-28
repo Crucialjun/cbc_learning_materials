@@ -91,7 +91,7 @@ class FirebaseAuthMethods {
       List<String> signInMethods = await FirebaseAuth.instance
           .fetchSignInMethodsForEmail(userData['email']);
 
-      if (signInMethods.isEmpty) {
+      if (signInMethods.isEmpty || signInMethods.contains('facebook.com')) {
         // Once signed in, return the UserCredential
         return await FirebaseAuth.instance.signInWithCredential(credential);
       } else {
