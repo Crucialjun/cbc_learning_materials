@@ -1,4 +1,6 @@
+import 'package:cbc_learning_materials/models/app_user.dart';
 import 'package:cbc_learning_materials/utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,17 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class FirebaseAuthMethods {
   FirebaseAuth auth = FirebaseAuth.instance;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<AppUser> getUser() async {
+    var currentUser = auth.currentUser;
+
+    var snapshot =
+        await _firestore.collection('users').doc(currentUser!.uid).get();
+
+    return AppUser.fromSnap(snapshot);
+  }
 
   Future signUp(String email, String password, BuildContext context) async {
     try {
