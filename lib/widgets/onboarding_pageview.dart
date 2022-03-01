@@ -1,6 +1,7 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingPageView extends StatefulWidget {
@@ -21,7 +22,7 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
           child: PageView(
             controller: _pageController,
             children: [
-              _page("page_view_image1", "Onboarding Page One",
+              _page("page_view_image1", "Easy Access to Reading Materials",
                   "This is the descriotion for the first onboarding screen, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at fringilla nisl, quis maximus turpis. Sed diam enim, volutpat nec sagittis nec, mollis a magna. Maecenas id eleifend augue, non consequat elit. Nullam ac nisi eu nisl aliquet viverra. Proin accumsan in nibh placerat suscipit."),
               _page("page_view_image2", "Onboarding Page Two",
                   "This is the descriotion for the Second onboarding screen,Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse at fringilla nisl, quis maximus turpis. Sed diam enim, volutpat nec sagittis nec, mollis a magna. Maecenas id eleifend augue, non consequat elit. Nullam ac nisi eu nisl aliquet viverra. Proin accumsan in nibh placerat suscipit."),
@@ -32,7 +33,9 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
             ],
           ),
         ),
-        const SizedBox(height: 4,),
+        const SizedBox(
+          height: 4,
+        ),
         Container(
           padding: const EdgeInsets.only(bottom: 16),
           child: SmoothPageIndicator(
@@ -51,19 +54,21 @@ class _OnboardingPageViewState extends State<OnboardingPageView> {
 Widget _page(String assetName, String title, String description) {
   return Center(
       child: Column(children: [
-    Expanded(
-      flex: 1,
-        child: SvgPicture.asset("assets/svg/$assetName.svg")),
+    Expanded(flex: 1, child: SvgPicture.asset("assets/svg/$assetName.svg")),
     Text(
       title,
-      style: const TextStyle(
-          color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24),
+      textAlign: TextAlign.center,
+      style: GoogleFonts.nunitoSans(
+          color: AppColors.primaryColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 24),
     ),
     const SizedBox(
       height: 8,
     ),
     Text(
       description,
+      style: GoogleFonts.nunitoSans(color: Colors.black),
       textAlign: TextAlign.center,
     ),
   ]));
