@@ -8,13 +8,15 @@ class AppUser {
   final String photoUrl;
   final String email;
   final String uid;
+  final bool isAdmin;
 
   AppUser(
       {required this.firstName,
       required this.lastName,
       required this.photoUrl,
       required this.email,
-      required this.uid});
+      required this.uid,
+      required this.isAdmin});
 
   Map<String, dynamic> toJson() {
     return {
@@ -23,6 +25,7 @@ class AppUser {
       'photoUrl': photoUrl,
       'email': email,
       'uid': uid,
+      'isAdmin': isAdmin,
     };
   }
 
@@ -35,6 +38,7 @@ class AppUser {
       photoUrl: snapshot['photoUrl'],
       email: snapshot['email'],
       uid: snapshot['uid'],
+      isAdmin: snapshot['isAdmin'],
     );
   }
 }
