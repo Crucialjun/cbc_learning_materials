@@ -1,5 +1,6 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
+import 'package:cbc_learning_materials/providers/user_provider.dart';
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:cbc_learning_materials/utils.dart';
 import 'package:email_validator/email_validator.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progress_state_button/iconed_button.dart';
 import 'package:progress_state_button/progress_button.dart';
+import 'package:provider/provider.dart';
 
 import 'main_dashboard.dart';
 
@@ -22,6 +24,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -107,6 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return null;
                         }
                       }),
+                      controller: _lastNameController,
                       decoration: InputDecoration(
                         isDense: true,
                         contentPadding: const EdgeInsets.all(4),
@@ -249,8 +253,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     setState(() {
                       _isLoading = true;
                     });
-                    await FirebaseAuthMethods().signUp(_emailController.text,
-                        _confirmPasswordController.text, context);
+                    await FirebaseAuthMethods().signUp(
+                        _emailController.text,
+                        _confirmPasswordController.text,
+                        _firstNameController.text,
+                        _lastNameController.text,
+                        context);
                     setState(() {
                       _isLoading = false;
                     });

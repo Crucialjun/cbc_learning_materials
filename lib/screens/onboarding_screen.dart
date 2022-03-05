@@ -1,9 +1,12 @@
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/global_consts.dart';
+import 'package:cbc_learning_materials/screens/main_dashboard.dart';
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:cbc_learning_materials/widgets/onboarding_pageview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -13,9 +16,15 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final User? user = context.watch<User?>();
+
+    if(user != null){
+      return const MainDashboard();
+    }
+     return Scaffold(
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8),

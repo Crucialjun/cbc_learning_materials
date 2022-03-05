@@ -1,3 +1,4 @@
+import 'package:cbc_learning_materials/firebase_utils/firestore_methods.dart';
 import 'package:cbc_learning_materials/models/app_user.dart';
 import 'package:cbc_learning_materials/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,23 +11,25 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class FirebaseAuthMethods {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  Future<AppUser> getUser() async {
-    var currentUser = auth.currentUser;
-
-    var snapshot =
-        await _firestore.collection('users').doc(currentUser!.uid).get();
-
-    return AppUser.fromSnap(snapshot);
-  }
-
-  Future signUp(String email, String password, BuildContext context) async {
+  Future signUp(String email, String password, String firstName,
+      String lastName, BuildContext context) async {
     try {
-      return await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        AppUser user = AppUser(
+            firstName: firstName,
+            lastName: lastName,
+            photoUrl: value.user?.photoURL,
+            email: email,
+            uid: value.user!.uid,
+            isAdmin: false);
+        await Firestoremethods().addUser(user);
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showErrorDialog(context, 'An account already exists for that email.');
