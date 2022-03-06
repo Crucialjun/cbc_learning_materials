@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cbc_learning_materials/global_consts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
@@ -29,16 +30,28 @@ class AppUser {
     };
   }
 
+  factory AppUser.fromMap(Map data){
+
+    return AppUser(
+        firstName: data[userFirstName],
+        lastName: data[userLastName],
+        photoUrl: data[userPhotoUrl],
+        email: data[userEmail],
+        uid: data[userUid],
+        isAdmin: data[userIsAdmin]);
+
+  }
+
   factory AppUser.fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return AppUser(
-      firstName: snapshot['firstName'],
-      lastName: snapshot['lastName'],
-      photoUrl: snapshot['photoUrl'],
-      email: snapshot['email'],
-      uid: snapshot['uid'],
-      isAdmin: snapshot['isAdmin'],
+      firstName: snapshot[userFirstName],
+      lastName: snapshot[userLastName],
+      photoUrl: snapshot[userPhotoUrl],
+      email: snapshot[userEmail],
+      uid: snapshot[userUid],
+      isAdmin: snapshot[userIsAdmin],
     );
   }
 }

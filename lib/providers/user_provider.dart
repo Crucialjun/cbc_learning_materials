@@ -11,8 +11,8 @@ class UserProvider extends ChangeNotifier {
   AppUser? get getUser => _user;
 
   Future<void> refreshUser(String userUid) async {
-    var user = await _firestoremethods.getUser(userUid);
-    _user = user;
+    var user =  _firestoremethods.getUser(userUid);
+    _user = user as AppUser?;
     notifyListeners();
   }
 }

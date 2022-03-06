@@ -2,10 +2,14 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
 import 'package:cbc_learning_materials/firebase_utils/firestore_methods.dart';
+import 'package:cbc_learning_materials/models/app_user.dart';
 import 'package:cbc_learning_materials/providers/user_provider.dart';
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -23,67 +27,137 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider _userProvider = Provider.of<UserProvider>(context);
-    _userProvider.refreshUser(FirebaseAuth.instance.currentUser!.uid);
+    final User user = context.watch<User>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 4.0),
           child: Column(
             children: [
-              Consumer<UserProvider>(
-                builder: (_,notifier,__)
-               =>
-              Text(
-                  notifier.getUser?.email ?? "Welcome No data",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  )),),
-              const SizedBox(
-                height: 16,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(
-                    Icons.menu,
+                    FontAwesomeIcons.award,
                     size: 28,
                     color: AppColors.primaryColor,
                   ),
+                  StreamBuilder<AppUser>(
+                      stream: Firestoremethods().getUser(user.uid),
+                      builder: (context,AsyncSnapshot<AppUser> snapshot ){
+                        if(snapshot.hasError){
+                          return Text(snapshot.error.toString(),style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w200,
+                            color: Colors.black
+                          ),
+                          );
+                        }else {
+                          return Text("Welcome ${snapshot.data?.firstName} ${snapshot.data!.lastName}" ?? "Welcome User",style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Colors.black,
+                          ),);
+                        }
+                      }),
                   InkWell(
                     onTap: () {},
                     child: CircleAvatar(
-                      backgroundImage: NetworkImage(FirebaseAuth
-                                  .instance.currentUser!.photoURL ==
-                              null
-                          ? "https://images.unsplash.com/photo-1638913974023-cef988e81629?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-                          : FirebaseAuth.instance.currentUser!.photoURL
-                              .toString()),
+                      radius: 24,
+                      backgroundColor: Colors.white,
+                      child: user.photoURL == null ? SvgPicture.asset("assets/svg/defaultpic.svg") : Image(image : NetworkImage(user.photoURL ?? "")),
                     ),
                   ),
                 ],
               ),
-              Text(
-                "Find C.B.C Learning Materials",
-                style: GoogleFonts.roboto(
-                    fontSize: 32,
-                    wordSpacing: 1.0,
-                    letterSpacing: 1.0,
-                    height: 1.1,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
+              const SizedBox(
+                height: 16,
               ),
-              AnimSearchBar(
-                helpText: "Search",
-                textController: _searchTextController,
-                onSuffixTap: () {
-                  setState(() {
-                    _searchTextController.clear();
-                  });
-                },
-                width: 400,
+              Align(
+                alignment:Alignment.centerLeft,
+                child: Text(
+                  "Find your learning",
+                  style: GoogleFonts.poppins(
+                      fontSize: 29,
+                      wordSpacing: 1.0,
+                      letterSpacing: 1.0,
+                      height: 1.1,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.primaryColor),
+                ),
               ),
+              Align(
+                alignment:Alignment.centerLeft,
+                child: Text(
+                  "Materials here!",
+                  style: GoogleFonts.poppins(
+                      fontSize: 29,
+                      wordSpacing: 1.0,
+                      letterSpacing: 1.0,
+                      height: 1.1,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primaryColor),
+                ),
+              ),
+              const SizedBox(height: 16.0,),
+              StreamBuilder<AppUser>(
+                  stream: Firestoremethods().getUser(user.uid),
+                  builder: (context,AsyncSnapshot<AppUser> snapshot ){
+                    if(snapshot.hasData) {
+                      if (!snapshot.data!.isAdmin) {
+                        return TextFormField(
+                          decoration: InputDecoration(
+                            labelStyle: const TextStyle(
+                                color: AppColors.primaryColor),
+                            labelText: "Search here",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            prefixIcon: const Icon(
+                              FontAwesomeIcons.search,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Row(
+                          children: [
+                        Expanded(
+                          child: TextFormField(
+                          decoration: InputDecoration(
+                          labelStyle: const TextStyle(color: AppColors.primaryColor),
+                    labelText: "Search here",
+                    border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    prefixIcon: const Icon(
+                    FontAwesomeIcons.search,
+                    color: AppColors.primaryColor,
+                    ),
+                    ),
+                    ),
+                        ),IconButton(onPressed: (){}, icon: const Icon(Icons.settings))
+                          ],
+                        );
+                      }
+
+                    }else{
+                      return TextFormField(
+                        decoration: InputDecoration(
+                          labelStyle: const TextStyle(
+                              color: AppColors.primaryColor),
+                          labelText: "Search here",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          prefixIcon: const Icon(
+                            FontAwesomeIcons.search,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      );
+                    }
+                  }),
+
               ElevatedButton(
                   onPressed: () async {
                     await FirebaseAuthMethods().signOut();

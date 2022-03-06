@@ -23,11 +23,7 @@ class Firestoremethods {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  Future<AppUser> getUser(String userUid) async {
-    var currentUser = FirebaseAuth.instance.currentUser;
-
-    var snapshot = await users.doc(userUid).get();
-
-    return AppUser.fromSnap(snapshot);
+  Stream<AppUser> getUser(String userUid)  {
+    return users.doc(userUid).snapshots().map((snap) => AppUser.fromSnap(snap));
   }
 }
