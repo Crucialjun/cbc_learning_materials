@@ -23,15 +23,13 @@ class MainDashboard extends StatefulWidget {
 class _MainDashboardState extends State<MainDashboard> {
   TextEditingController _searchTextController = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
     final User user = context.watch<User>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 4.0),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0),
           child: Column(
             children: [
               Row(
@@ -44,19 +42,23 @@ class _MainDashboardState extends State<MainDashboard> {
                   ),
                   StreamBuilder<AppUser>(
                       stream: Firestoremethods().getUser(user.uid),
-                      builder: (context,AsyncSnapshot<AppUser> snapshot ){
-                        if(snapshot.hasError){
-                          return Text(snapshot.error.toString(),style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w200,
-                            color: Colors.black
-                          ),
+                      builder: (context, AsyncSnapshot<AppUser?> snapshot) {
+                        if (snapshot.hasError) {
+                          return Text(
+                            snapshot.error.toString(),
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w200,
+                                color: Colors.black),
                           );
-                        }else {
-                          return Text("Welcome ${snapshot.data?.firstName} ${snapshot.data!.lastName}" ?? "Welcome User",style: GoogleFonts.poppins(
+                        } else {
+                          return Text(
+                            "Welcome ${snapshot.data?.firstName} ${snapshot.data?.lastName}",
+                            style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: Colors.black,
-                          ),);
+                            ),
+                          );
                         }
                       }),
                   InkWell(
@@ -64,7 +66,9 @@ class _MainDashboardState extends State<MainDashboard> {
                     child: CircleAvatar(
                       radius: 24,
                       backgroundColor: Colors.white,
-                      child: user.photoURL == null ? SvgPicture.asset("assets/svg/defaultpic.svg") : Image(image : NetworkImage(user.photoURL ?? "")),
+                      child: user.photoURL == null
+                          ? SvgPicture.asset("assets/svg/defaultpic.svg")
+                          : Image(image: NetworkImage(user.photoURL ?? "")),
                     ),
                   ),
                 ],
@@ -73,7 +77,7 @@ class _MainDashboardState extends State<MainDashboard> {
                 height: 16,
               ),
               Align(
-                alignment:Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "Find your learning",
                   style: GoogleFonts.poppins(
@@ -86,7 +90,7 @@ class _MainDashboardState extends State<MainDashboard> {
                 ),
               ),
               Align(
-                alignment:Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   "Materials here!",
                   style: GoogleFonts.poppins(
@@ -98,16 +102,18 @@ class _MainDashboardState extends State<MainDashboard> {
                       color: AppColors.primaryColor),
                 ),
               ),
-              const SizedBox(height: 16.0,),
+              const SizedBox(
+                height: 16.0,
+              ),
               StreamBuilder<AppUser>(
                   stream: Firestoremethods().getUser(user.uid),
-                  builder: (context,AsyncSnapshot<AppUser> snapshot ){
-                    if(snapshot.hasData) {
+                  builder: (context, AsyncSnapshot<AppUser> snapshot) {
+                    if (snapshot.hasData) {
                       if (!snapshot.data!.isAdmin) {
                         return TextFormField(
                           decoration: InputDecoration(
-                            labelStyle: const TextStyle(
-                                color: AppColors.primaryColor),
+                            labelStyle:
+                                const TextStyle(color: AppColors.primaryColor),
                             labelText: "Search here",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -121,30 +127,33 @@ class _MainDashboardState extends State<MainDashboard> {
                       } else {
                         return Row(
                           children: [
-                        Expanded(
-                          child: TextFormField(
-                          decoration: InputDecoration(
-                          labelStyle: const TextStyle(color: AppColors.primaryColor),
-                    labelText: "Search here",
-                    border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    prefixIcon: const Icon(
-                    FontAwesomeIcons.search,
-                    color: AppColors.primaryColor,
-                    ),
-                    ),
-                    ),
-                        ),IconButton(onPressed: (){}, icon: const Icon(Icons.settings))
+                            Expanded(
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  labelStyle: const TextStyle(
+                                      color: AppColors.primaryColor),
+                                  labelText: "Search here",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  prefixIcon: const Icon(
+                                    FontAwesomeIcons.search,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.settings))
                           ],
                         );
                       }
-
-                    }else{
+                    } else {
                       return TextFormField(
                         decoration: InputDecoration(
-                          labelStyle: const TextStyle(
-                              color: AppColors.primaryColor),
+                          labelStyle:
+                              const TextStyle(color: AppColors.primaryColor),
                           labelText: "Search here",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -157,7 +166,6 @@ class _MainDashboardState extends State<MainDashboard> {
                       );
                     }
                   }),
-
               ElevatedButton(
                   onPressed: () async {
                     await FirebaseAuthMethods().signOut();
