@@ -13,6 +13,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class FirebaseAuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  //auth state provider
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future signUp(String email, String password, String firstName,
