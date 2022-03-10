@@ -32,6 +32,9 @@ class Firestoremethods {
   }
 
   Future<void> addLearningMaterial(LearningMaterial learningMaterial) {
-    return learningMaterials.add(learningMaterial);
+    return learningMaterials.doc(learningMaterial.name).set({
+      learningMaterialName : learningMaterial.name,
+      learningMaterialUrl : learningMaterial.downloadUrl,
+    }).then((value) => print("Material added to database")).catchError((error)=> print(error.toString()));
   }
 }
