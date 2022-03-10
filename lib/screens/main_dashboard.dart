@@ -4,6 +4,7 @@ import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart
 import 'package:cbc_learning_materials/firebase_utils/firestore_methods.dart';
 import 'package:cbc_learning_materials/models/app_user.dart';
 import 'package:cbc_learning_materials/providers/user_provider.dart';
+import 'package:cbc_learning_materials/screens/add_learning_material-screen.dart';
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -144,7 +145,13 @@ class _MainDashboardState extends State<MainDashboard> {
                               ),
                             ),
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: ((context) =>
+                                              const AddLearningMaterial())));
+                                },
                                 icon: const Icon(Icons.settings))
                           ],
                         );
