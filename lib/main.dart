@@ -1,5 +1,3 @@
-
-
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
 import 'package:cbc_learning_materials/global_consts.dart';
 import 'package:cbc_learning_materials/providers/user_provider.dart';
@@ -10,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -28,7 +27,6 @@ Future<void> main() async {
             context.read<FirebaseAuthMethods>().authStateChanges,
         initialData: null,
       ),
-
     ],
     child: const MyApp(),
   ));
@@ -61,7 +59,7 @@ class MyApp extends StatelessWidget {
         null,
       ),
     ]);
-    return MaterialApp(
+    return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: appName,
         theme: ThemeData(

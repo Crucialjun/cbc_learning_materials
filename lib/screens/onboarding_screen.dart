@@ -6,6 +6,7 @@ import 'package:cbc_learning_materials/screens/sign_up_screen.dart';
 import 'package:cbc_learning_materials/widgets/onboarding_pageview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -16,15 +17,14 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-
   @override
   Widget build(BuildContext context) {
     final User? user = context.watch<User?>();
 
-    if(user != null){
+    if (user != null) {
       return const MainDashboard();
     }
-     return Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -41,16 +41,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignInScreen(),
-                        ),
-                        (route) => false);
+                    Get.to(() => const SignInScreen(),
+                        transition: Transition.zoom);
                   },
-                  child: const Text(
-                    "Skip",
-                    style: TextStyle(color: AppColors.PRIMARY_COLOR_LIGHT),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Skip",
+                      style: TextStyle(
+                          color: AppColors.PRIMARY_COLOR_LIGHT, fontSize: 18),
+                    ),
                   ),
                 ),
               ],
@@ -59,14 +59,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             Hero(
               tag: 'signup',
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: AppColors.primaryColor),
+                style:
+                    ElevatedButton.styleFrom(primary: AppColors.primaryColor),
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpScreen(),
-                      ),
-                      (route) => false);
+                  Get.to(() => const SignUpScreen(),
+                      transition: Transition.zoom);
                 },
                 child: const Text("Create an Account"),
               ),
@@ -75,12 +72,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               tag: "signin",
               child: OutlinedButton(
                 onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignInScreen(),
-                      ),
-                      (route) => false);
+                  Get.to(() => const SignInScreen(),
+                      transition: Transition.zoom);
                 },
                 style: OutlinedButton.styleFrom(
                     primary: AppColors.primaryColor,
