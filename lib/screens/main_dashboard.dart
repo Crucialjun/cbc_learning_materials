@@ -2,13 +2,19 @@ import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:cbc_learning_materials/app_colors.dart';
 import 'package:cbc_learning_materials/firebase_utils/firebase_auth_methods.dart';
 import 'package:cbc_learning_materials/firebase_utils/firestore_methods.dart';
+import 'package:cbc_learning_materials/global_consts.dart';
 import 'package:cbc_learning_materials/models/app_user.dart';
+import 'package:cbc_learning_materials/models/learning_material.dart';
 import 'package:cbc_learning_materials/providers/user_provider.dart';
 import 'package:cbc_learning_materials/screens/add_learning_material-screen.dart';
 import 'package:cbc_learning_materials/screens/sign_in_screen.dart';
+import 'package:cbc_learning_materials/utils.dart';
+import 'package:cbc_learning_materials/widgets/learning_material_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -173,6 +179,30 @@ class _MainDashboardState extends State<MainDashboard> {
                       );
                     }
                   }),
+              Expanded(
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(learningMaterialTableName)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        showErrorDialog(context, snapshot.error.toString());
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return MasonryGridView.count(
+                        itemCount: snapshot.data?.docs.length ?? 0,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
+                        crossAxisCount: 2,
+                        itemBuilder: (context, index) {
+                          return LearningMaterialCard(
+                              snap: snapshot.data!.docs[index].data());
+                        },
+                      );
+                    }),
+              ),
               ElevatedButton(
                   onPressed: () async {
                     await FirebaseAuthMethods().signOut();
