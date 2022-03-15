@@ -16,7 +16,7 @@ class FirebaseAuthMethods {
   //auth state provider
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  Future signUp(String email, String password, String firstName,
+  Future<bool> signUp(String email, String password, String firstName,
       String lastName, BuildContext context) async {
     try {
       await _auth
@@ -30,29 +30,38 @@ class FirebaseAuthMethods {
             uid: value.user!.uid,
             isAdmin: false);
         await Firestoremethods().addUser(user);
+        return true;
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showErrorDialog(context, 'An account already exists for that email.');
+        return false;
       }
     } catch (e) {
       showErrorDialog(context, e.toString());
+      return false;
     }
+    return false;
   }
 
   Future signIn(String email, String password, BuildContext context) async {
     try {
-      return await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showErrorDialog(context, "No user with that email, please sign up");
+        return false;
       } else if (e.code == 'wrong-password') {
         showErrorDialog(context, 'Wrong password provided please try again');
+        return false;
       }
     } catch (e) {
       showErrorDialog(context, e.toString());
+      return false;
     }
+    return false;
   }
 
   Future signOut() async {

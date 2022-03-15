@@ -180,28 +180,41 @@ class _MainDashboardState extends State<MainDashboard> {
                     }
                   }),
               Expanded(
-                child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection(learningMaterialTableName)
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        showErrorDialog(context, snapshot.error.toString());
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      return MasonryGridView.count(
-                        itemCount: snapshot.data?.docs.length ?? 0,
-                        crossAxisSpacing: 4,
-                        mainAxisSpacing: 4,
-                        crossAxisCount: 2,
-                        itemBuilder: (context, index) {
-                          return LearningMaterialCard(
-                              snap: snapshot.data!.docs[index].data());
-                        },
-                      );
-                    }),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection(learningMaterialTableName)
+                          .snapshots(),
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          showErrorDialog(context, snapshot.error.toString());
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        return MasonryGridView.count(
+                          itemCount: snapshot.data?.docs.length ?? 0,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 4,
+                          crossAxisCount: 2,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                print(LearningMaterial.fromDocSnap(
+                                        snapshot.data!.docs[index])
+                                    .name);
+                              },
+                              child: LearningMaterialCard(
+                                  snap: snapshot.data!.docs[index].data()),
+                            );
+                          },
+                        );
+                      }),
+                ),
               ),
               ElevatedButton(
                   onPressed: () async {

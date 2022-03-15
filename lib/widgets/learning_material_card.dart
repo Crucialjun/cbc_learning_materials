@@ -20,12 +20,12 @@ class LearningMaterialCard extends StatelessWidget {
                 (snap[learningMaterialName]).toString().toUpperCase(),
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 18,
                   decoration: TextDecoration.underline,
                 ),
               )),
           Padding(
-            padding: const EdgeInsets.only(top: 16),
+            padding: const EdgeInsets.only(top: 20),
             child: OptimizedCacheImage(
               imageUrl: snap[learningMaterialUrl],
               progressIndicatorBuilder: (context, url, downloadProgress) =>

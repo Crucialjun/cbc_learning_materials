@@ -33,6 +33,14 @@ class LearningMaterial {
       downloadUrl: snapshot[learningMaterialUrl],
     );
   }
+  factory LearningMaterial.fromDocSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    return LearningMaterial(
+      name: snapshot[learningMaterialName],
+      downloadUrl: snapshot[learningMaterialUrl],
+    );
+  }
 
   factory LearningMaterial.fromJson(String source) =>
       LearningMaterial.fromMap(json.decode(source));

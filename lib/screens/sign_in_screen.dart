@@ -147,17 +147,21 @@ class _SignInScreenState extends State<SignInScreen> {
                     setState(() {
                       _isLoading = true;
                     });
-                    await FirebaseAuthMethods().signIn(_emailController.text,
-                        _passwordController.text, context);
+                    bool isSucces = await FirebaseAuthMethods().signIn(
+                        _emailController.text,
+                        _passwordController.text,
+                        context);
                     setState(() {
                       _isLoading = false;
                     });
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MainDashboard(),
-                        ),
-                        (route) => false);
+                    if (isSucces) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MainDashboard(),
+                          ),
+                          (route) => false);
+                    }
                   }
                 },
               ),
