@@ -8,44 +8,46 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 
 class FirebaseStorageMethods {
   final FirebaseStorage storage = FirebaseStorage.instance;
 
-  Future<String?> pickFile() async{
-
+  Future<String?> pickFile() async {
     FilePickerResult? results = await FilePicker.platform.pickFiles(
         type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'png']);
 
-    if(results == null){
+    if (results == null) {
       return null;
-    }else{
+    } else {
       return results.files.single.path;
     }
   }
 
-  Future<void> uploadfile(BuildContext context, String filename,String path) async {
-      File file = File(path);
-      if (filename.isEmpty) {
-        showErrorDialog(context, "Please Enter File Name");
-      } else {
-        try {
-          var ref = storage.ref("$learningMaterialStorageFolder/$filename");
-          var task = await ref.putFile(file);
-          String downloadUrl = await ref.getDownloadURL();
-          var learningMaterial =
-              LearningMaterial(name: filename, downloadUrl: downloadUrl);
-          Firestoremethods().addLearningMaterial(learningMaterial);
-          if (kDebugMode) {
-            print(downloadUrl);
-          }
-        } on FirebaseException catch (e) {
-          showErrorDialog(context, e.message.toString());
-          if (kDebugMode) {
-            print(e.toString());
-          }
+  Future<void> uploadfile(
+      BuildContext context, String filename, String path) async {
+    File file = File(path);
+    var uuid = const Uuid();
+    var id = uuid.v4();
+    if (filename.isEmpty) {
+      showErrorDialog(context, "Please Enter File Name");
+    } else {
+      try {
+        var ref = storage.ref("$learningMaterialStorageFolder/$filename");
+        var task = await ref.putFile(file);
+        String downloadUrl = await ref.getDownloadURL();
+        var learningMaterial =
+            LearningMaterial(name: filename, downloadUrl: downloadUrl, id: id);
+        Firestoremethods().addLearningMaterial(learningMaterial);
+        if (kDebugMode) {
+          print(downloadUrl);
+        }
+      } on FirebaseException catch (e) {
+        showErrorDialog(context, e.message.toString());
+        if (kDebugMode) {
+          print(e.toString());
         }
       }
     }
-
+  }
 }

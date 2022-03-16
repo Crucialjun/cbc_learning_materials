@@ -33,10 +33,11 @@ class Firestoremethods {
 
   Future<void> addLearningMaterial(LearningMaterial learningMaterial) {
     return learningMaterials
-        .doc(learningMaterial.name)
+        .doc(learningMaterial.id)
         .set({
           learningMaterialName: learningMaterial.name,
           learningMaterialUrl: learningMaterial.downloadUrl,
+          "id": learningMaterial.id,
         })
         .then((value) => print("Material added to database"))
         .catchError((error) => print(error.toString()));
