@@ -17,8 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'learning_material_details.dart';
 
 class MainDashboard extends StatefulWidget {
   const MainDashboard({Key? key}) : super(key: key);
@@ -204,9 +207,10 @@ class _MainDashboardState extends State<MainDashboard> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                print(LearningMaterial.fromDocSnap(
-                                        snapshot.data!.docs[index])
-                                    .name);
+                                Get.to(() => LearningMaterialDetails(
+                                    learningMaterial:
+                                        LearningMaterial.fromDocSnap(
+                                            snapshot.data!.docs[index])));
                               },
                               child: LearningMaterialCard(
                                   snap: snapshot.data!.docs[index].data()),

@@ -39,7 +39,7 @@ class LearningMaterial {
     return LearningMaterial(
       name: snapshot[learningMaterialName],
       downloadUrl: snapshot[learningMaterialUrl],
-      id: snapshot["id"],
+      id: snapshot["id"] ?? "",
     );
   }
 
