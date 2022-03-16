@@ -20,7 +20,7 @@ class FirebaseAuthMethods {
       String lastName, BuildContext context) async {
     try {
       await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
+          .createUserWithEmailAndPassword(email: email.trim(), password: password)
           .then((value) async {
         AppUser user = AppUser(
             firstName: firstName,
@@ -47,7 +47,7 @@ class FirebaseAuthMethods {
   Future signIn(String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+          .signInWithEmailAndPassword(email: email.trim(), password: password);
       return true;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

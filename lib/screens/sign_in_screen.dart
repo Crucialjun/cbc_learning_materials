@@ -57,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               TextFormField(
                 controller: _emailController,
-                validator: (value) => EmailValidator.validate(value!)
+                validator: (value) => EmailValidator.validate(value!.trim())
                     ? null
                     : "Please enter a valid email",
                 decoration: InputDecoration(

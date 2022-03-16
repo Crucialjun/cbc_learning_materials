@@ -38,6 +38,7 @@ class Firestoremethods {
           learningMaterialName: learningMaterial.name,
           learningMaterialUrl: learningMaterial.downloadUrl,
           "id": learningMaterial.id,
+      learningMaterialDate : learningMaterial.dateAdded,
         })
         .then((value) => print("Material added to database"))
         .catchError((error) => print(error.toString()));

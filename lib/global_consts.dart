@@ -10,6 +10,7 @@ const String userIsAdmin = "IsAdmin";
 const String learningMaterialTableName = "Learning Materials";
 const String learningMaterialName = "Name";
 const String learningMaterialUrl = "Download Url";
+const String learningMaterialDate = "Date Added";
 
 
 const String learningMaterialStorageFolder = "Learning Materials Files";

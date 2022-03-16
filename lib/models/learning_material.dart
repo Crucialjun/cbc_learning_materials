@@ -7,9 +7,10 @@ class LearningMaterial {
   final String name;
   final String downloadUrl;
   final String id;
+  final dynamic dateAdded;
 
   LearningMaterial(
-      {required this.name, required this.downloadUrl, required this.id});
+      {required this.name, required this.downloadUrl, required this.id,required this.dateAdded});
 
   Map<String, dynamic> toMap() {
     return {'name': name, 'downloadUrl': downloadUrl, 'id': id};
@@ -19,7 +20,9 @@ class LearningMaterial {
     return LearningMaterial(
         name: map['name'] ?? '',
         downloadUrl: map['downloadUrl'] ?? '',
-        id: map['id'] ?? '');
+        id: map['id'] ?? '',
+      dateAdded: map['dateAdded'] ?? '',
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -31,6 +34,7 @@ class LearningMaterial {
       name: snapshot[learningMaterialName],
       downloadUrl: snapshot[learningMaterialUrl],
       id: snapshot["id"],
+      dateAdded: snapshot[learningMaterialDate],
     );
   }
   factory LearningMaterial.fromDocSnap(DocumentSnapshot snap) {
@@ -40,6 +44,7 @@ class LearningMaterial {
       name: snapshot[learningMaterialName],
       downloadUrl: snapshot[learningMaterialUrl],
       id: snapshot["id"] ?? "",
+      dateAdded: snapshot[learningMaterialDate] ?? "",
     );
   }
 

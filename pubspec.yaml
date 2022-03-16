@@ -59,6 +59,8 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   optimized_cached_image: ^3.0.0
   uuid: ^3.0.6
+  progressive_image: ^2.0.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

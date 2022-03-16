@@ -4,6 +4,7 @@ import 'package:cbc_learning_materials/firebase_utils/firestore_methods.dart';
 import 'package:cbc_learning_materials/global_consts.dart';
 import 'package:cbc_learning_materials/models/learning_material.dart';
 import 'package:cbc_learning_materials/utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,6 +30,7 @@ class FirebaseStorageMethods {
     File file = File(path);
     var uuid = const Uuid();
     var id = uuid.v4();
+    var dateAdded = FieldValue.serverTimestamp();
     if (filename.isEmpty) {
       showErrorDialog(context, "Please Enter File Name");
     } else {
@@ -37,7 +39,7 @@ class FirebaseStorageMethods {
         var task = await ref.putFile(file);
         String downloadUrl = await ref.getDownloadURL();
         var learningMaterial =
-            LearningMaterial(name: filename, downloadUrl: downloadUrl, id: id);
+            LearningMaterial(name: filename, downloadUrl: downloadUrl, id: id,dateAdded: dateAdded);
         Firestoremethods().addLearningMaterial(learningMaterial);
         if (kDebugMode) {
           print(downloadUrl);

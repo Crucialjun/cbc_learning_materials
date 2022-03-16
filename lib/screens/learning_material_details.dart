@@ -1,5 +1,7 @@
 import 'package:cbc_learning_materials/models/learning_material.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:progressive_image/progressive_image.dart';
 
 class LearningMaterialDetails extends StatelessWidget {
   final LearningMaterial learningMaterial;
@@ -8,6 +10,8 @@ class LearningMaterialDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var format = DateFormat('yyyy-MM-dd hh:mm');
+    var dateadded = format.format(learningMaterial.dateAdded.toDate());
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(onPressed: () {}),
@@ -15,46 +19,41 @@ class LearningMaterialDetails extends StatelessWidget {
           child: Column(children: [
         Row(
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.favorite)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
           ],
         ),
-        Stack(
-          children: [
-            Positioned(
-              child: Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Image.network(
-                      learningMaterial.downloadUrl,
-                    ),
-                  )),
+        Card(
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
             ),
-            Positioned(
-              bottom: -20,
-              child: Align(
-                alignment: Alignment.center,
-                child: Card(
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Text("Description"),
-                    )),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ProgressiveImage.custom(
+                  placeholderBuilder: (context) => const CircularProgressIndicator(),
+                  image:NetworkImage( learningMaterial.downloadUrl), height: 260, thumbnail: NetworkImage( learningMaterial.downloadUrl), width: 180,)
+            )),
+        Align(
+          alignment: Alignment.center,
+          child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
               ),
-            ),
-          ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Description"),
+              )),
         ),
         Text(
           learningMaterial.name,
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
+            Text(
+              dateadded,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
       ])),
     );
   }
