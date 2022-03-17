@@ -26,7 +26,7 @@ class FirebaseStorageMethods {
   }
 
   Future<void> uploadfile(
-      BuildContext context, String filename, String path) async {
+      BuildContext context, String filename, String path,String description) async {
     File file = File(path);
     var uuid = const Uuid();
     var id = uuid.v4();
@@ -39,7 +39,7 @@ class FirebaseStorageMethods {
         var task = await ref.putFile(file);
         String downloadUrl = await ref.getDownloadURL();
         var learningMaterial =
-            LearningMaterial(name: filename, downloadUrl: downloadUrl, id: id,dateAdded: dateAdded);
+            LearningMaterial(name: filename, downloadUrl: downloadUrl, id: id,dateAdded: dateAdded,description: description);
         Firestoremethods().addLearningMaterial(learningMaterial);
         if (kDebugMode) {
           print(downloadUrl);

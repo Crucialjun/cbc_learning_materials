@@ -19,11 +19,18 @@ class AddLearningMaterial extends StatefulWidget {
 
 class _AddLearningMaterialState extends State<AddLearningMaterial> {
   final TextEditingController _fileNameController = TextEditingController();
+  final TextEditingController _fileDescriptionController = TextEditingController();
   String? _imagePath;
   bool _isLoadingImage = false;
   bool _isLoadingUpload = false;
   ButtonState _uploadingButtonState = ButtonState.idle;
 
+  @override
+  void dispose() {
+    _fileNameController.dispose();
+    _fileDescriptionController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -46,9 +53,9 @@ class _AddLearningMaterialState extends State<AddLearningMaterial> {
             Expanded(
               child: Hero(
                   tag: "topsvg",
-                  child: _imagePath == null ? SvgPicture.asset("assets/svg/upload.svg") :Image.file(File(_imagePath ?? "")), ),
+                  child: _imagePath ==  null || _imagePath == ""? SvgPicture.asset("assets/svg/upload.svg") :Image.file(File(_imagePath ?? "")), ),
             ),
-            SizedBox(height: 24,),
+            const SizedBox(height: 24,),
             ElevatedButton(onPressed: () async{
               setState(() {
                 _isLoadingImage = true;
@@ -75,6 +82,19 @@ class _AddLearningMaterialState extends State<AddLearningMaterial> {
                   borderRadius: BorderRadius.circular(30),
                 ),
             ),),
+
+            const SizedBox(height: 24,),
+            TextField(
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              controller: _fileDescriptionController,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.all(4),
+                labelText: "Enter File Description",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),),
 
             const SizedBox(height: 24,),
             ProgressButton.icon(
@@ -108,7 +128,7 @@ class _AddLearningMaterialState extends State<AddLearningMaterial> {
                   });
                   showErrorDialog(context, "Enter File Name");
                 }else{
-                  await FirebaseStorageMethods().uploadfile(context, _fileNameController.text,_imagePath!);
+                  await FirebaseStorageMethods().uploadfile(context, _fileNameController.text,_imagePath!,_fileDescriptionController.text);
                   setState(() {
                     _uploadingButtonState = ButtonState.success;
                     _fileNameController.clear();

@@ -8,9 +8,10 @@ class LearningMaterial {
   final String downloadUrl;
   final String id;
   final dynamic dateAdded;
+  final String description;
 
   LearningMaterial(
-      {required this.name, required this.downloadUrl, required this.id,required this.dateAdded});
+      {required this.name, required this.downloadUrl, required this.id,required this.dateAdded,required this.description});
 
   Map<String, dynamic> toMap() {
     return {'name': name, 'downloadUrl': downloadUrl, 'id': id};
@@ -22,6 +23,7 @@ class LearningMaterial {
         downloadUrl: map['downloadUrl'] ?? '',
         id: map['id'] ?? '',
       dateAdded: map['dateAdded'] ?? '',
+      description: map['description'] ?? '',
     );
   }
 
@@ -35,6 +37,7 @@ class LearningMaterial {
       downloadUrl: snapshot[learningMaterialUrl],
       id: snapshot["id"],
       dateAdded: snapshot[learningMaterialDate],
+      description: snapshot[learningMaterialDescription],
     );
   }
   factory LearningMaterial.fromDocSnap(DocumentSnapshot snap) {
@@ -45,6 +48,7 @@ class LearningMaterial {
       downloadUrl: snapshot[learningMaterialUrl],
       id: snapshot["id"] ?? "",
       dateAdded: snapshot[learningMaterialDate] ?? "",
+      description: snapshot[learningMaterialDescription] ?? "",
     );
   }
 
